@@ -410,10 +410,6 @@ def free_rooms():
 # Ponto de entrada
 # ---------------------------------------------------------------------------
 
-# Simulador automático em background
-import auto_simulator
-auto_simulator.start(broadcast)
-
 # Catch-all para servir o React SPA em produção
 if _STATIC.exists():
     @app.route("/", defaults={"path": ""})
@@ -432,6 +428,8 @@ if __name__ == "__main__":
     print(f"  Zonas: {len(store.ZONES)} | Entidades: pessoas, veículos, animais, equipamentos")
     print("  http://localhost:8000/api/health")
     print("=" * 60)
+    import auto_simulator
+    auto_simulator.start(broadcast)
     host = os.getenv("FLASK_HOST", "0.0.0.0")
     port = int(os.getenv("FLASK_PORT", "8000"))
     app.run(host=host, port=port, threaded=True, debug=False)

@@ -100,25 +100,28 @@ def _env(zone_id: str, count: int, capacity: int, t: float) -> dict:
 
 
 def _loop(broadcast_fn: Callable):
+    print("[Simulador] Loop iniciado.", flush=True)
     while True:
-        now = datetime.now()
-        t   = now.hour + now.minute/60.0 + now.second/3600.0
+        try:
+            now = datetime.now()
+            t   = now.hour + now.minute/60.0 + now.second/3600.0
 
-        for zone_id, cfg in ZONE_CONFIG.items():
-            factor   = cfg["fn"](t)
-            capacity = cfg["capacity"]
-            noise    = random.gauss(0, NOISE_FACTOR * max(factor, 0.05))
-            count    = max(0, min(capacity, int(round((factor + noise) * capacity))))
-            env      = _env(zone_id, count, capacity, t) if cfg["env"] else None
+            for zone_id, cfg in ZONE_CONFIG.items():
+                factor   = cfg["fn"](t)
+                capacity = cfg["capacity"]
+                noise    = random.gauss(0, NOISE_FACTOR * max(factor, 0.05))
+                count    = max(0, min(capacity, int(round((factor + noise) * capacity))))
+                env      = _env(zone_id, count, capacity, t) if cfg["env"] else None
 
-            result = store.update_zone(zone_id, count, env)
-            if result:
-                zone, alert = result
-                zone_dict = store.zone_to_dict(zone)
-                broadcast_fn({"type": "zone_update", "zone": zone_dict})
-                if alert:
-                    broadcast_fn({"type": "alert", "alert": alert})
-                database.save_reading(zone_id, count, zone.occupancy_percent, env)
+                result = store.update_zone(zone_id, count, env)
+                if result:
+                    zone, alert = result
+                    zone_dict = store.zone_to_dict(zone)
+                    broadcast_fn({"type": "zone_update", "zone": zone_dict})
+                    if alert:
+                        broadcast_fn({"type": "alert", "alert": alert})
+        except Exception as e:
+            print(f"[Simulador] ERRO: {e}", flush=True)
 
         time.sleep(INTERVAL)
 
