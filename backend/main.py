@@ -410,6 +410,10 @@ def free_rooms():
 # Ponto de entrada
 # ---------------------------------------------------------------------------
 
+# Simulador automático em background
+import auto_simulator
+auto_simulator.start(broadcast)
+
 # Catch-all para servir o React SPA em produção
 if _STATIC.exists():
     @app.route("/", defaults={"path": ""})
