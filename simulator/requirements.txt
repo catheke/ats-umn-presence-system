@@ -1,0 +1,9 @@
+# ══════════════════════════════════════════════════════════════════════
+# ATS-UMN Presence System v2.0 — Dependências do Simulador IoT
+# ══════════════════════════════════════════════════════════════════════
+# Instalar: pip install -r requirements.txt
+# Python requerido: 3.9 ou superior
+
+httpx>=0.27         # Cliente HTTP assíncrono para enviar leituras ao backend
+anyio>=4.0,<4.13    # Async I/O — 4.13+ requer Python 3.10
+certifi>=2024.0     # Certificados SSL

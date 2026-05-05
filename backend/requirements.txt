@@ -1,0 +1,30 @@
+# ══════════════════════════════════════════════════════════════════════
+# ATS-UMN Presence System v2.0 — Dependências do Backend (Python)
+# Instituto Politécnico da Huíla (IPH) | Universidade Mandume ya Ndemufayo
+# ══════════════════════════════════════════════════════════════════════
+# Instalar: pip install -r requirements.txt
+# Python requerido: 3.9 ou superior
+
+# ── Framework Web ─────────────────────────────────────────────────────
+Flask>=3.0
+flask-sock>=0.7
+Werkzeug>=3.0
+
+# ── HTTP Client (comunicação com Supabase e simulador) ────────────────
+httpx>=0.27
+anyio>=4.0,<4.13      # 4.13+ requer Python 3.10
+
+# ── MQTT — Cliente IoT (para hardware ESP32 real) ─────────────────────
+paho-mqtt>=2.1
+# amqtt omitido — requer Python 3.10+ (0.11+) ou conflito PyYAML (0.10)
+# Em modo simulação o broker MQTT não é necessário (simulador usa HTTP)
+
+# ── Variáveis de Ambiente ─────────────────────────────────────────────
+python-dotenv>=1.0
+
+# ── WebSocket ────────────────────────────────────────────────────────
+simple-websocket>=0.9
+wsproto>=1.2
+
+# ── Utilidades ────────────────────────────────────────────────────────
+certifi>=2024.0
